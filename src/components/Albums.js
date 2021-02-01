@@ -49,7 +49,8 @@ const Albums = () => {
   return (
     <>
       {
-        isTrue ? <FormAlbums handleClick={handleClick} /> : <Container >
+         <Container >
+           {isTrue && <FormAlbums handleClick={handleClick} />}
           <Table striped bordered hover variant="dark">
             <thead>
               <tr>

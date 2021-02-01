@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useDispatch } from 'react-redux'
 
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Modal } from 'react-bootstrap';
 
 import { addNewAlbum } from '../redux/albums/albums'
 
@@ -55,65 +55,81 @@ const FormAlbums = ({ handleClick }) => {
     }
 
     return (
+        <Modal show={true}>
+            <Container>
+                <Form>
+                    <Form.Group controlId="name">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Album name"
+                            name='name'
+                            value={name}
+                            onChange={saveData}
+                        />
+                    </Form.Group>
 
-        <Container>
-            <Form>
-                <Form.Group controlId="name">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Album name"
-                        name='name'
-                        value={name}
-                        onChange={saveData}
-                    />
-                </Form.Group>
+                    <Form.Group controlId="year">
+                        <Form.Label>Year</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Year"
+                            name='year'
+                            value={year}
+                            onChange={saveData}
+                        />
+                    </Form.Group>
 
-                <Form.Group controlId="year">
-                    <Form.Label>Year</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Year"
-                        name='year'
-                        value={year}
-                        onChange={saveData}
-                    />
-                </Form.Group>
+                    <Form.Group controlId="artist">
+                        <Form.Label>Artist</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Artist"
+                            name='artist'
+                            value={artist}
+                            onChange={saveData}
+                        />
+                    </Form.Group>
 
-                <Form.Group controlId="artist">
-                    <Form.Label>Artist</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Artist"
-                        name='artist'
-                        value={artist}
-                        onChange={saveData}
-                    />
-                </Form.Group>
+                    <Form.Group>
+                        <Form.File
+                            type="file"
+                            accept="image/*"
+                            name="image"
+                            id="input"
+                            onChange={imageHandler}
+                            style={{
+                                margin: "10px 0"
+                            }}
+                        />
+                    </Form.Group>
 
-                <Form.Group>
-                    <Form.File
-                        type="file"
-                        accept="image/*"
-                        name="image"
-                        id="input"
-                        onChange={imageHandler}
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        onClick={saveAlbumToStore}
                         style={{
-                            margin: "10px 0"
-                        }}
-                    />
-                </Form.Group>
+                            margin: "10px auto",
+                            width: "100%",
 
-                <Button variant="primary" type="submit" onClick={saveAlbumToStore} style={{
-                            marginRight: "10px"
                         }}>
-                    Add album
+                        Add album
                 </Button>
-                <Button variant="danger" type="submit" onClick={handleClick}>
-                    Close
+                    <Button
+                     variant="danger"
+                      type="submit"
+                       onClick={handleClick}
+                       style={{
+                        margin: "10px auto",
+                        width: "100%"                   
+
+                    }}>
+                       
+                        Close
             </Button>
-            </Form>
-        </Container>
+                </Form>
+            </Container>
+        </Modal>
     )
 }
 
