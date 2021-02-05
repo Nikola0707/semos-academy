@@ -1,37 +1,33 @@
 import React, { useState } from 'react'
-
 import { useDispatch } from 'react-redux'
-
 import { useHistory } from 'react-router-dom'
-
 import {
   Form, FormControl, FormGroup,
   FormLabel, Col, Button
 } from 'react-bootstrap'
 import { saveLoginInfo } from './../redux/login/login'
 
-
-
+// useHistory().push(/)
 const Login = () => {
-
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-
   const dispatch = useDispatch()
   const history = useHistory()
 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
   const login = () => {
-    // save login info - dispatch action  
+    // save login info - dispatch action
     // and redirect to homepage
     dispatch(saveLoginInfo(username, password))
     history.push('/')
   }
 
-  const saveInput = (event) => {
-    const { name, value } = event.target
-    if(name === 'username'){
+  const saveInput = (e) => {
+    const { name, value } = e.target
+
+    if (name === 'username') {
       setUsername(value)
-    } else if(name === 'password'){
+    } else if (name === 'password') {
       setPassword(value)
     }
   }
@@ -44,7 +40,7 @@ const Login = () => {
         <FormControl
           type='text'
           name='username'
-          value = {username}
+          value={username}
           onChange={saveInput}
         />
       </FormGroup>
@@ -57,8 +53,8 @@ const Login = () => {
           name='password'
           value={password}
           onChange={saveInput}
-          onKeyUp = {(e) => {
-            if(e.keyCode === 13){
+          onKeyUp={(e) => {
+            if (e.keyCode === 13) {
               e.preventDefault()
               login()
             }
@@ -68,7 +64,9 @@ const Login = () => {
 
       <FormGroup as={Col} lg={4}>
         {/* password */}
-        <Button onClick={login}>Sign In</Button>
+        <Button onClick={login}>
+          Sign In
+        </Button>
       </FormGroup>
     </Col>
   </Form>

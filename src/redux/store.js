@@ -1,22 +1,21 @@
-// ACTIONS - They initiate the change
-// REDUCERS - They save the change in the store
+// global state / redux state
+// store is an object
+
+// ACTIONS - they initiate the change
+// REDUCERS - they save the change in the store
 
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-
 import { counterReducer } from './counter/counter'
+import logger from 'redux-logger'
 import { loginReducer } from './login/login'
 import { albumsReducer } from './albums/albums'
 
-import logger from 'redux-logger'
-
-
 const allReducers = combineReducers({
-    counterReducer,
-    loginReducer,
-    albumsReducer
+  counterReducer, // { counter: 0 }
+  loginReducer, // { username: '', password: '' }
+  albumsReducer
 })
 
 const store = createStore(allReducers, applyMiddleware(logger))
-console.log(store.getState());
 
 export default store

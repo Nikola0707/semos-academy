@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import '../styles/Toolbar.css'
 import logo from '../images/example-logo.jpg'
 import { Button } from 'react-bootstrap'
-
 // Main navigation component
 
 // props is an object

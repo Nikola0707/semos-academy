@@ -48,6 +48,7 @@ class App extends React.Component {
           <Route path='*'>
             <NotFound />
           </Route>
+
         </Switch>
       </BrowserRouter>
     )

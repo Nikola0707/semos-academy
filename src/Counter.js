@@ -1,17 +1,20 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { incrementAction, decrementAction } from './redux/counter/counter'
+import {
+  incrementAction, decrementAction
+} from './redux/counter/counter'
 
 const Counter = () => {
   const dispatch = useDispatch()
 
   // subscribing to store key
-const value =  useSelector((store) => store.counterReducer.counterReducer)
-  
-  const increment = () =>{
+  const value = useSelector((store) => store.counterReducer.counter)
+
+  const increment = () => {
     dispatch(incrementAction())
   }
-  const decrement = () =>{
+
+  const decrement = () => {
     dispatch(decrementAction())
   }
 

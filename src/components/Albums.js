@@ -1,80 +1,94 @@
 import React, { useState } from 'react'
-
-import { Container, Table, Button } from 'react-bootstrap';
-
-
-import FormAlbums from './FormAlbums';
-
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { Table, Button } from 'react-bootstrap'
+import AddNewAlbum from './AddNewAlbum.js'
+import { removeAlbum } from '../redux/albums/albums'
+import EditAlbum from './EditAlbum.js'
+import SearchBar from './SearchBar.js'
 
 const Albums = () => {
+  const [isModalShown, showModal] = useState(false)
+  const [editModalShown, showEditModal] = useState(false)
+  const [rowId, rowClicked] = useState(null)
 
-  // Depends of this boolean, show or hide the form
-  const [isTrue, setIsTrue] = useState(false)
+  const {
+    albums,
+    filteredAlbums,
+    searchBarText
+  } = useSelector(state => state.albumsReducer)
 
-  // Album state and state length
-  const albumsState = useSelector((store) => store.albumsReducer.albums)
-  const albumsLength = albumsState.length
+  const renderAlbums = searchBarText !== '' ? filteredAlbums : albums
 
+  const dispatch = useDispatch()
 
-
-  // Create album items in a table
-  const createAlbums = () => {
-    return (
-      albumsState.map((albumsState) => {
-        const { name, year, image, artist } = albumsState
-        return (
-          <tbody>
-            <tr>
-              <td>{name.toUpperCase()}</td>
-              <td style={{maxWidth: "50px"}}><img src={image} alt="albumImage" id="img" style={{
-                width: "100%",
-                height: "50px"
-              }}/></td>
-              <td>{year.toUpperCase()}</td>
-              <td>{artist.toUpperCase()}</td>
-            </tr>
-          </tbody>
-        )
-      })
-    )
+  const toggleModal = () => {
+    showModal(!isModalShown)
   }
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setIsTrue(!isTrue);
+  const toggleEditModal = (index) => {
+    rowClicked(index)
+    showEditModal(!editModalShown)
   }
 
-  return (
-    <>
-      {
-         <Container >
-           {isTrue && <FormAlbums handleClick={handleClick} />}
-          <Table striped bordered hover variant="dark">
-            <thead>
-              <tr>
-                <th colSpan="5">
-                  <Button variant="primary" onClick={handleClick}>Add new Album</Button>
-                </th>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Year</th>
-                <th>Artist</th>
-              </tr>
-            </thead>
+  const deleteAlbum = (index) => {
+    dispatch(removeAlbum(index))
+  }
 
-            {
-              albumsLength > 0 ? createAlbums() : <h3 style={{color: 'black'}}>Please click <b>Add new Album</b> and fill the form with all informations.</h3>
+  return (<div style={{ padding: '5% 20%' }}>
 
-            }
-          </Table>
-        </Container>
-      }
+    <SearchBar />
 
-    </>
+    <Button onClick={toggleModal}>
+      Add new album
+    </Button>
+
+    {isModalShown &&
+      <AddNewAlbum show={isModalShown} handleClose={toggleModal} />
+    }
+
+    {editModalShown &&
+      <EditAlbum
+        rowId={rowId}
+        album={albums[rowId]}
+        show={editModalShown}
+        handleClose={toggleEditModal}
+      />
+    }
+
+    <Table striped bordered hover style={{ marginTop: '1rem' }}>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Year</th>
+          <th>Artist</th>
+          <th>Cover Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {/* ovde se prikazuvaat albumite, sekoj vo poseban redica */}
+        {renderAlbums.map((album, index) => {
+          return <tr key={index}>
+            <td>{album.albumName}</td>
+            <td>{album.year}</td>
+            <td>{album.artist}</td>
+            <td>{album.photo}</td>
+            <td>
+              <Button variant='secondary'
+                onClick={() => toggleEditModal(index)}>
+                Edit
+              </Button>
+              <Button
+                variant='danger'
+                onClick={() => deleteAlbum(index)}
+              >
+                Delete
+              </Button>
+            </td>
+          </tr>
+        })}
+      </tbody>
+    </Table>
+  </div>
   )
 }
 
