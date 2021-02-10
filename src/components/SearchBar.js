@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { InputGroup, FormControl, Button, DropdownButton, Dropdown } from 'react-bootstrap'
+import { InputGroup, FormControl, DropdownButton, Dropdown } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { searchAlbum } from '../redux/albums/albums'
 
